@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="10">
+    <title>QR Display - LED Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="centered-body led-screen">
+    <div class="led-container">
+        <h1>SLOT: <span class="highlight">{{ slot_id }}</span></h1>
+        <h2>CAR: {{ car_number }}</h2>
+        <div class="qr-box">
+            <img src="data:image/png;base64,{{ qr_b64 }}" alt="QR Code">
+        </div>
+        <p style="font-size: 1.2rem; margin: 10px 0;">Scan QR to Open Entry Gate</p>
+        <div style="background: #2c2c2c; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <h3 style="margin: 0; color: #00ffcc;">VACANT SLOTS: <span style="font-size: 1.5em; color: #fff;">{{ vacant
+                    }}</span></h3>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="led-btn mt-20">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

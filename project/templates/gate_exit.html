@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3;url={{ url_for('dashboard') }}">
+    <title>Exit Gate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="centered-body">
+    <div class="gate-status">
+        <h1 class="flash-text green-text">Thank You – Gate Opening</h1>
+        <div class="barrier-container">
+            <div class="barrier-base"></div>
+            <div class="barrier-arm"></div>
+        </div>
+        <p>Redirecting to Dashboard...</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle History - Smart Parking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .table-container {
+            width: 90%;
+            margin: 20px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background-color: #2c2c2c;
+            color: #00ffcc;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background-color: #333;
+        }
+
+        .filter-container {
+            width: 90%;
+            margin: 20px auto 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-container input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #2c2c2c;
+            color: #fff;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-nav">
+        <h1>VEHICLE HISTORY</h1>
+        <a href="{{ url_for('dashboard') }}" class="led-btn nav-btn">Back to Dashboard</a>
+    </div>
+
+    <div class="filter-container">
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Filter by Car Number...">
+    </div>
+
+    <div class="table-container">
+        <table id="historyTable">
+            <thead>
+                <tr>
+                    <th>Car Number</th>
+                    <th>Phone</th>
+                    <th>Slot</th>
+                    <th>Entry Time</th>
+                    <th>Exit Time</th>
+                    <th>Total Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.car_number }}</td>
+                    <td>{{ log.phone_number }}</td>
+                    <td>{{ log.slot_id }}</td>
+                    <td>{{ log.entry_time }}</td>
+                    <td>{{ log.exit_time or 'Parked' }}</td>
+                    <td>{{ log.total_duration or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No history available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("historyTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Filter by Car Number (1st col)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

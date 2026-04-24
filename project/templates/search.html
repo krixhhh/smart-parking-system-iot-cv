@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result - Smart Parking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .search-card {
+            width: 50%;
+            margin: 50px auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .search-card h2 {
+            color: #00ffcc;
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: #2c2c2c;
+            border-radius: 5px;
+        }
+
+        .detail-label {
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        .detail-value {
+            color: #fff;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .parked {
+            background: #00ffcc;
+            color: #000;
+        }
+
+        .exited {
+            background: #555;
+            color: #fff;
+        }
+
+        .not-found {
+            background: #ff3333;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-nav">
+        <h1>SEARCH RESULT</h1>
+        <a href="{{ url_for('dashboard') }}" class="led-btn nav-btn">Back to Dashboard</a>
+    </div>
+
+    <div class="search-card">
+        <h2>Vehicle: {{ car_number }}</h2>
+
+        {% if status == 'parked' %}
+        <div class="detail-row">
+            <span class="detail-label">Status</span>
+            <span class="status-badge parked">Currently Parked</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Slot ID</span>
+            <span class="detail-value">{{ vehicle.id }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Entry Time</span>
+            <span class="detail-value">{{ vehicle.entry_time }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Live Duration</span>
+            <span class="detail-value">{{ duration }}</span>
+        </div>
+
+        {% elif status == 'exited' %}
+        <div class="detail-row">
+            <span class="detail-label">Status</span>
+            <span class="status-badge exited">Exited</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Slot Used</span>
+            <span class="detail-value">{{ vehicle.slot_id }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Entry Time</span>
+            <span class="detail-value">{{ vehicle.entry_time }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Exit Time</span>
+            <span class="detail-value">{{ vehicle.exit_time }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Total Duration</span>
+            <span class="detail-value">{{ vehicle.total_duration }}</span>
+        </div>
+
+        {% else %}
+        <div class="status-badge not-found" style="font-size: 1.5em; padding: 15px;">
+            VEHICLE NOT FOUND
+        </div>
+        <p style="margin-top: 20px; color: #aaa;">No active or past records matched this car number.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>

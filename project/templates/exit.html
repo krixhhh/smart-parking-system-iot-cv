@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exit Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="top-nav">
+        <h1>EXIT MANAGEMENT</h1>
+        <a href="{{ url_for('dashboard') }}" class="led-btn nav-btn">Back to Dashboard</a>
+    </div>
+    <div class="container centered-body">
+        <div class="card exit-card">
+            <h2>PROCESS EXIT</h2>
+            {% if slot %}
+            <div class="receipt">
+                <p><strong>Car Number:</strong> {{ slot.car_number }}</p>
+                <p><strong>Slot:</strong> {{ slot.id }}</p>
+                <p><strong>Entry Time:</strong> {{ slot.entry_time }}</p>
+                <p><strong>Duration:</strong> {{ duration }}</p>
+                <h3 class="highlight">Amount Due: {{ amount }} INR</h3>
+            </div>
+            <form method="POST">
+                <input type="hidden" name="car_number" value="{{ slot.car_number }}">
+                <button type="submit" name="process_payment" class="led-btn process-btn">PAY & OPEN GATE</button>
+            </form>
+            {% else %}
+            <form method="POST">
+                <input type="text" name="car_number" placeholder="Enter Car Number" required>
+                <button type="submit" class="led-btn">CALCULATE BILL</button>
+            </form>
+            {% endif %}
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="error">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+
+</html>

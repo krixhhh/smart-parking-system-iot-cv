@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="30">
+    <title>Dashboard - Smart Parking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="top-nav">
+        <h1>PARKING DASHBOARD</h1>
+        <a href="{{ url_for('scanner_page') }}" class="led-btn nav-btn" style="background-color: #4f46e5;">AI Scanner</a>
+        <a href="{{ url_for('exit_process') }}" class="led-btn nav-btn">Exit Management</a>
+        <a href="{{ url_for('logout') }}" class="led-btn nav-btn logout">Logout</a>
+    </div>
+    <div class="container layout-flex">
+        <div class="sidebar">
+            <div class="stats-card">
+                <h2>STATS</h2>
+                <p>Total Slots: <span class="val">{{ total }}</span></p>
+                <p>Vacant: <span class="val green">{{ vacant }}</span></p>
+                <p>Reserved: <span class="val yellow">{{ reserved }}</span></p>
+                <p>Occupied: <span class="val red">{{ occupied }}</span></p>
+                <hr style="border-color: #333; margin: 10px 0;">
+                <p>Total Vehicles Today: <span class="val">{{ total_today }}</span></p>
+                <p>Total Completed: <span class="val">{{ total_completed }}</span></p>
+                <p>Live Parked: <span class="val">{{ occupied + reserved }}</span></p>
+            </div>
+            <div class="entry-form card">
+                <h2>NEW ENTRY</h2>
+                <form method="POST">
+                    <input type="text" name="car_number" placeholder="Car Number" required>
+                    <input type="text" name="phone_number" placeholder="Phone Number" required>
+                    {% if vacant == 0 %}
+                    <div style="color: red; font-weight: bold; padding: 10px;">PARKING FULL</div>
+                    {% else %}
+                    <button type="submit" class="led-btn">ALLOCATE SLOT</button>
+                    {% endif %}
+                </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="error">{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+            <div class="exit-form card" style="margin-top: 20px;">
+                <h2>SEARCH & HISTORY</h2>
+                <form action="{{ url_for('search_vehicle') }}" method="POST">
+                    <input type="text" name="search_car_number" placeholder="Search Car Number" required>
+                    <button type="submit" class="led-btn" style="margin-bottom: 15px;">SEARCH</button>
+                </form>
+                <a href="{{ url_for('vehicle_history') }}" class="led-btn"
+                    style="display: block; text-align: center; text-decoration: none;">View Parking History</a>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="parking-grid">
+                {% for slot in slots %}
+                <div class="slot {{ slot.status }}">
+                    <div class="slot-id">{{ slot.id }}</div>
+                    {% if slot.status == 'occupied' %}
+                    <div class="car-number">{{ slot.car_number }}</div>
+                    <form action="{{ url_for('exit_process') }}" method="POST" style="margin-top: 5px; width: 100%;">
+                        <input type="hidden" name="car_number" value="{{ slot.car_number }}">
+                        <button type="submit" class="led-btn" style="padding: 2px; font-size: 10px;">EXIT</button>
+                    </form>
+                    {% endif %}
+                    <div class="slot-status">{{ slot.status }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
