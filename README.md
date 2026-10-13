@@ -110,7 +110,7 @@ Some improvements that could be added to the project include:
 
 **Krishna Kumar R**
 
-GitHub:(https://github.com/krixhhh)
+GitHub: https://github.com/krixhhh
 
 ---
 
