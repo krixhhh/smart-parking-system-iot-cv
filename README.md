@@ -2,7 +2,7 @@
 
 Finding an empty parking space can be frustrating, especially in busy areas. This project explores how IoT and computer vision can be used to make parking management easier and more efficient.
 
-The main idea is to detect parking slot availability and help users identify available spaces without having to search for them manually.
+The main idea is to detect parking slot availability and help users identify available spaces without having to search for them manually. 
 
 ## About the Project
 
