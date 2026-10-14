@@ -4,7 +4,7 @@ Finding an empty parking space can be frustrating, especially in busy areas. Thi
 
 The main idea is to detect parking slot availability and help users identify available spaces without having to search for them manually. 
 
-## About the Project
+## About the Project 
 
 This project focuses on building a smart parking system that uses computer vision for parking slot detection and IoT concepts for monitoring parking availability.
 
